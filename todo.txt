@@ -1,0 +1,1 @@
+* Averiguar si md soporta highlight de texto o ver si se intenta implementarlo.
