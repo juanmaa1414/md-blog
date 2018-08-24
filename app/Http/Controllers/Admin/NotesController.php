@@ -1,8 +1,10 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace App\Http\Controllers\Admin;
 
+use App\Tag;
 use App\Note;
 use Illuminate\Http\Request;
+use Lloople\Notificator\Notificator;
 use App\Http\Controllers\Controller;
 
 class NotesController extends Controller
@@ -25,7 +27,7 @@ class NotesController extends Controller
      */
     public function create()
     {
-        return view('admin.notes.create');
+        return view('admin.notes.edit');
     }
 
     /**
@@ -36,7 +38,22 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+			'title' => 'required',
+			'content' => 'required',
+		]);
+		
+		$note = Note::create([
+			'title' => $request->title,
+			'user_id' => 1,
+			'published' => $request->published,
+			'content' => $request->content,
+		]);
+		
+		$note->syncTagsFromUserInput($request->tags);
+		
+		Notificator::success('Note created successfully');
+		return redirect()->route('admin.notes.edit', $note);
     }
 
     /**
@@ -56,9 +73,9 @@ class NotesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Note $note)
     {
-        //
+        return view('admin.notes.edit', compact('note'));
     }
 
     /**
@@ -83,4 +100,15 @@ class NotesController extends Controller
     {
         //
     }
+	
+	public function jsonSearchTags(Request $request)
+	{
+		$foundTags = Tag::bySearch($request->q)->get();
+		$result = [
+			'success' => true,
+			'result' => $foundTags->pluck('label')->toArray()
+		];
+		
+		return response()->json($result);
+	}
 }

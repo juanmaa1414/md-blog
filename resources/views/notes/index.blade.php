@@ -18,9 +18,19 @@
 				<div class="tile is-child box">
 					<small class="art-detail as-date">{{ $note->created_at->format('d/m/Y') }}</small>
 					<br>
-					<a href="{{ url('/notes/{$note->slug}') }}">
-						{{ $note->title }}
-					</a>
+					<div class="notes-title">
+						<a href="{{ url("/notes/{$note->slug}") }}">
+							{{ $note->title }}
+						</a>
+					</div>
+					<br><br>
+					<div class="is-pulled-right">
+						<a class="button is-rounded" href="{{ url("/admin/notes/{$note->id}/edit") }}">
+							<span class="icon is-small">
+								<i class="fas fa-edit"></i>
+							</span>
+						</a>
+					</div>
 				</div>
 			</div>
 			

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Note;
 
 class NoteSeeder extends Seeder
 {
@@ -11,14 +12,14 @@ class NoteSeeder extends Seeder
      */
     public function run()
     {
-		// First, an nice example.
-		factory(App\Note::class)->create([
+		// First, a nice example.
+		$note1 = Note::create([
 			'title' => 'Journalism in the Age of Open Data',
 			'slug' => 'journalism-in-the-age-of-open-data',
 			'user_id' => 1,
 			'published' => true,
 			'upvotes' => 2,
-			'content' => <<<EOD
+			'content' => <<<AAA
 # Reviewing how journalism Interacts with Open Data
 ### The Washington Post
 
@@ -58,8 +59,23 @@ The publishing and use of open data – especially outside the US, the UK and th
 In its pursuit of truth, transparency and government accountability, journalism can benefit from the opening of more and more data. Governments and authorities, on the other hand, can start relying on journalism to promote the use of open data and its social and economic value.
 
 Want to tell your stories from the perspective of open data?
-EOD
+AAA
 		]);
+		
+		$note2 = Note::create([
+			'title' => '2nd test',
+			'slug' => '2nd-test',
+			'user_id' => 1,
+			'published' => true,
+			'upvotes' => 0,
+			'content' => <<<AAB
+# 2nd Article test
+It's a _simple_ demostration.
+AAB
+		]);
+		
+		$note1->tags()->attach([1, 2, 3, 4, 5, 6]);
+		$note2->tags()->attach([7, 8, 9, 10]);
 		
 		// After, continue with the rest.
 		factory(App\Note::class, 15)->create();

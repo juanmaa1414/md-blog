@@ -5,7 +5,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>@yield('title') - Easy Note</title>
 	<link rel="stylesheet" href="{{ asset('vendor/bulma/bulma.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('vendor/toastify-js/toastify.css') }}">
+	<link rel="stylesheet" href="{{ asset('vendor/awesomplete/awesomplete.css') }}">
+	@yield('page-styles')
+	
 	<script defer src="{{ asset('vendor/font-awesome/all.js') }}"></script>
+	<script defer src="{{ asset('vendor/toastify-js/toastify.js') }}"></script>
+	<script defer src="{{ asset('vendor/awesomplete/awesomplete.min.js') }}"></script>
+	<script defer src="{{ asset('js/js_enhancing.js') }}"></script>
+	<script defer src="{{ asset('js/app.js') }}"></script>
 </head>
 <body>
 	
@@ -46,6 +54,29 @@
 		.as-date {
 			color: #888;
 		}
+		
+		.notes-title {
+			min-height: 3.6em;
+		}
+		
+		/**
+		 * CSS libraries override
+		 */
+		
+		/* Fix for editor mismatching lines. */
+		.content pre.CodeMirror-line {
+			margin-bottom: initial;
+		}
+		
+		.toastify.on {
+			opacity: 1;
+			z-index: 100;
+		}
+		
+		.awesomplete {
+			display: block;
+			position: relative;
+		}
 	</style>
 	
 	<nav class="navbar has-background-linksemi" role="navigation" aria-label="main navigation">
@@ -55,7 +86,7 @@
 			</a>
 		</div>
 		<div class="navbar-menu">
-			<a class="navbar-item has-text-grey" href="{{ url("/notes/") }}">
+			<a class="navbar-item has-text-grey" href="{{ url('/notes/'') }}">
 				Blog archive
 			</a>
 			<a class="navbar-item has-text-grey">
@@ -77,5 +108,14 @@
 			</p>
 		</div>
 	</footer>
+	
+	<script>
+		var app = {};
+		
+		app.BASE_URL = "{{ url('/') }}";
+		app.currentNotifications = {!! json_encode(\Lloople\Notificator\Notificator::toArray()) !!};
+	</script>
+	
+	@yield('page-scripts')
 </body>
 </html>
