@@ -12,14 +12,14 @@ class PermissionSeeder extends Seeder
     public function run()
     {
 		$permissions = [
-			['name' => 'see_notes', 'label' => 'Can see notes'],
-			['name' => 'create_notes', 'label' => 'Can create notes'],
-			['name' => 'edit_notes', 'label' => 'Can edit notes'],
-			['name' => 'delete_notes', 'label' => 'Can delete notes'],
-			['name' => 'see_drafts', 'label' => 'Can see drafts'],
-			['name' => 'create_drafts', 'label' => 'Can create drafts'],
-			['name' => 'edit_drafts', 'label' => 'Can edit drafts'],
-			['name' => 'delete_drafts', 'label' => 'Can delete drafts']
+			['name' => 'see-notes', 'label' => 'Can see notes'],
+			['name' => 'create-notes', 'label' => 'Can create notes'],
+			['name' => 'edit-notes', 'label' => 'Can edit notes'],
+			['name' => 'delete-notes', 'label' => 'Can delete notes'],
+			['name' => 'see-drafts', 'label' => 'Can see drafts'],
+			['name' => 'create-drafts', 'label' => 'Can create drafts'],
+			['name' => 'edit-drafts', 'label' => 'Can edit drafts'],
+			['name' => 'delete-drafts', 'label' => 'Can delete drafts']
 		];
 		
         App\Permission::insert($permissions);

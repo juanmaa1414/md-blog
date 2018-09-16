@@ -23,14 +23,16 @@
 							{{ $note->title }}
 						</a>
 					</div>
-					<br><br>
-					<div class="is-pulled-right">
-						<a class="button is-rounded" href="{{ url("/admin/notes/{$note->id}/edit") }}">
-							<span class="icon is-small">
-								<i class="fas fa-edit"></i>
-							</span>
-						</a>
-					</div>
+					@auth
+						<br><br>
+						<div class="is-pulled-right">
+							<a class="button is-rounded" href="{{ url("/admin/notes/{$note->id}/edit") }}">
+								<span class="icon is-small">
+									<i class="fas fa-edit"></i>
+								</span>
+							</a>
+						</div>
+					@endauth
 				</div>
 			</div>
 			

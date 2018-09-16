@@ -27,7 +27,8 @@ class NotesController extends Controller
      */
     public function create()
     {
-        return view('admin.notes.edit');
+        $this->authorize('create-notes');
+        return view('notes.edit');
     }
 
     /**
@@ -53,7 +54,7 @@ class NotesController extends Controller
 		$note->syncTagsFromUserInput($request->tags);
 		
 		Notificator::success('Note created successfully');
-		return redirect()->route('admin.notes.edit', $note);
+		return redirect()->route('notes.edit', $note);
     }
 
     /**
@@ -75,7 +76,7 @@ class NotesController extends Controller
      */
     public function edit(Note $note)
     {
-        return view('admin.notes.edit', compact('note'));
+        return view('notes.edit', compact('note'));
     }
 
     /**

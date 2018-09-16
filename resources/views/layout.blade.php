@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>@yield('title') - Easy Note</title>
+	<title>@yield('title') - {{ config('app.name', 'Blog') }}</title>
 	<link rel="stylesheet" href="{{ asset('vendor/bulma/bulma.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('vendor/toastify-js/toastify.css') }}">
 	<link rel="stylesheet" href="{{ asset('vendor/awesomplete/awesomplete.css') }}">
@@ -20,10 +20,6 @@
 	<style>
 		body {
 			background-color: #F5F6F7;
-		}
-		
-		.content p {
-			font-size: 1.2em;
 		}
 		
 		.title.leading {
@@ -44,7 +40,7 @@
 		}
 		
 		.has-background-linksemi {
-			background-color: #D4E7D7;
+			background-color: #E3EBED;
 		}
 		
 		.art-detail {
@@ -82,17 +78,36 @@
 	<nav class="navbar has-background-linksemi" role="navigation" aria-label="main navigation">
 		<div class="navbar-brand">
 			<a class="navbar-item has-text-grey">
-				My blog
+				{{ config('app.name', 'Blog') }}
 			</a>
 		</div>
+		
 		<div class="navbar-menu">
-			<a class="navbar-item has-text-grey" href="{{ url('/notes/'') }}">
+			<a class="navbar-item has-text-grey" href="{{ url('/notes/') }}">
 				Blog archive
 			</a>
 			<a class="navbar-item has-text-grey">
 				About
 			</a>
 		</div>
+		
+		@auth
+			<div class="navbar-item has-dropdown is-hoverable is-right">
+				<a class="navbar-link" href="#">
+					{{ Auth::user()->name }}
+				</a>
+				<div class="navbar-dropdown is-boxed">
+					<a class="navbar-item" href="#" onclick="document.getElementById('logout-form').submit()">
+						Logout
+					</a>
+
+					<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+						{{ csrf_field() }}
+					</form>
+				</div>
+			</div>
+		@endauth
+		
 	</nav>
 
 	<div class="container">
