@@ -13,8 +13,12 @@
 	</section>
 
 	<div class="container box">
-		<form id="note-form" method="post" action="{{ url('/admin/notes') }}">
+		<form id="note-form" method="post" action="{{ url('/admin/notes/') }}{{$note->id ?? ''}}">
 			{{ csrf_field() }}
+			
+			@isset($note)
+				<input type="hidden" name="_method" value="patch">
+			@endisset
 			
 			<div class="columns">
 				<div class="column">
@@ -43,12 +47,25 @@
 				</div>
 			</div>
 			
-			<div class="field">
-				<button type="submit" class="button is-light" name="published" value="0">Draft</button>
-				<label class="control-label"> or </label>
-				<button type="submit" class="button is-link" name="published" value="1">Publish now</button>
+			<div class="field has-addons is-pulled-right">
+				@empty($note)
+					<p class="control">
+						<input type="submit" class="button" value="Draft" onclick="window.published = '0'">
+					</p>
+					<p class="control">
+						<a class="button is-static">
+							or
+						</a>
+					</p>
+				@endisset
+				<p class="control">
+					<input type="submit" class="button is-link" value="Publish now" onclick="window.published = '1'">
+				</p>
 			</div>
+			
 		</form>
+		
+		<br><br>
 	</div>
 	
 	@section('page-scripts')
@@ -74,6 +91,7 @@
 
 					var noteContent = easyMDE.value();
 					this.appendDataField('content', noteContent);
+					this.appendDataField('published', window.published);
 					this.submit();
 				}, false);
 

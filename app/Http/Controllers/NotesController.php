@@ -12,10 +12,20 @@ class NotesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-		$notes = Note::published()->paginate(6);
-		return view('notes.index', compact('notes'));
+		$paginated = Note::published()->paginate(6);
+		$items = collect($paginated->items());
+		
+		// In the first page, set separately the first header ones
+		if ($request->page == "1" || ! $request->page) {
+			$firstTwo = [$items[0], $items[1]];
+			$notes = $items->splice(2);
+		} else {
+			$notes = $items;
+		}
+		
+		return view('notes.index', compact('paginated', 'firstTwo', 'notes'));
     }
 
     /**

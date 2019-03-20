@@ -11,8 +11,7 @@
 |
 */
 
-//Route::get('/', 'HomeController@index');
-Route::redirect('/', '/admin/notes');
+Route::get('/', 'NotesController@index');
 
 Route::resource('notes', 'NotesController');
 
@@ -22,7 +21,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
 	});
 	Route::resource('notes', 'Admin\NotesController');
 });
-
 
 Auth::routes();
 

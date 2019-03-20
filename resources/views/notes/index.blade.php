@@ -2,15 +2,21 @@
 @section('title', 'Home')
 
 @section('content')
-	<section class="hero">
-		<div class="hero-body">
-			<div class="container">
-				<h1 class="title leading">
-					Archive
-				</h1>
+	<br>
+	@if(isset($firstTwo))
+		<div class="columns">
+			<div class="column is-two-thirds">
+				<div class="box">
+					<a href="notes/journalism-in-the-age-of-open-data" class="entry">{{ $firstTwo[0]->title }}</a>
+				</div>
+			</div>
+			<div class="column">
+				<div class="box">
+					<a href="notes/2nd-test" class="entry">{{ $firstTwo[1]->title }}</a>
+				</div>
 			</div>
 		</div>
-	</section>
+	@endif
 
 	<div class="tile is-ancestor">
 		@foreach ($notes as $note)
@@ -18,21 +24,11 @@
 				<div class="tile is-child box">
 					<small class="art-detail as-date">{{ $note->created_at->format('d/m/Y') }}</small>
 					<br>
-					<div class="notes-title">
+					<div class="entry">
 						<a href="{{ url("/notes/{$note->slug}") }}">
 							{{ $note->title }}
 						</a>
 					</div>
-					@auth
-						<br><br>
-						<div class="is-pulled-right">
-							<a class="button is-rounded" href="{{ url("/admin/notes/{$note->id}/edit") }}">
-								<span class="icon is-small">
-									<i class="fas fa-edit"></i>
-								</span>
-							</a>
-						</div>
-					@endauth
 				</div>
 			</div>
 			
@@ -44,5 +40,5 @@
 		@endforeach
 	</div>
 
-	{{ $notes->links('pagination.default') }}
+	{{ $paginated->links('pagination.default') }}
 @endsection

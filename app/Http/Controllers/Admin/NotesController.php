@@ -16,8 +16,11 @@ class NotesController extends Controller
      */
     public function index()
     {
-		$notes = Note::published()->paginate(6);
-		return view('notes.index', compact('notes'));
+		// TODO: really, only own notes, or all. Depends.
+		$this->authorize('see-notes');
+		
+		$notes = Note::published()->paginate(16);
+		return view('notes.index_admin', compact('notes'));
     }
 
     /**
@@ -28,6 +31,7 @@ class NotesController extends Controller
     public function create()
     {
         $this->authorize('create-notes');
+		
         return view('notes.edit');
     }
 
@@ -86,9 +90,24 @@ class NotesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Note $note)
     {
-        //
+        $request->validate([
+			'title' => 'required',
+			'content' => 'required',
+		]);
+		
+		$note = Note::update([
+			'title' => $request->title,
+			'user_id' => 1,
+			'published' => $request->published,
+			'content' => $request->content,
+		]);
+		
+		$note->syncTagsFromUserInput($request->tags);
+		
+		Notificator::success('Note updated successfully');
+		return redirect()->route('notes.show', $note->slug);
     }
 
     /**

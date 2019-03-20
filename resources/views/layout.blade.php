@@ -35,7 +35,7 @@
 			padding: .75rem;
 		}
 		
-		.tile a {
+		.entry {
 			font-size: 1.2rem;
 		}
 		
@@ -49,10 +49,6 @@
 		
 		.as-date {
 			color: #888;
-		}
-		
-		.notes-title {
-			min-height: 3.6em;
 		}
 		
 		/**

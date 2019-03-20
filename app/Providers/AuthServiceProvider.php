@@ -29,5 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-notes', function (User $user) {
             return $user->hasAccess(['create-notes']);
         });
+		
+		Gate::define('see-notes', function (User $user) {
+            return $user->hasAccess(['see-notes']);
+        });
     }
 }
